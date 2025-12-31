@@ -10,7 +10,7 @@ export async function onRequestPost(context) {
     // Mailgun expects FormData, not JSON
     const mailgunData = new FormData();
     mailgunData.append('from', `Website Contact <postmaster@${context.env.MAILGUN_DOMAIN}>`);
-    mailgunData.append('to', 'YOUR_PERSONAL_EMAIL@gmail.com'); // Where you want to receive it
+    mailgunData.append('to', 'juniorsanchez2015@gmail.com'); // Where you want to receive it
     mailgunData.append('subject', 'New Contact Form Submission');
     mailgunData.append('text', `From: ${userName} <${userEmail}>\n\nMessage:\n${userMessage}`);
     // You can also use 'html' instead of 'text' if you want rich formatting
