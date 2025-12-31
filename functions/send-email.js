@@ -3,6 +3,7 @@ export async function onRequestPost(context) {
     // 1. Parse the form data sent from your HTML website
     const formData = await context.request.formData();
     const userEmail = formData.get('email');
+    const userName = formData.get('name');
     const userMessage = formData.get('message');
 
     // 2. Prepare data for Mailgun
@@ -11,7 +12,7 @@ export async function onRequestPost(context) {
     mailgunData.append('from', `Website Contact <postmaster@${context.env.MAILGUN_DOMAIN}>`);
     mailgunData.append('to', 'YOUR_PERSONAL_EMAIL@gmail.com'); // Where you want to receive it
     mailgunData.append('subject', 'New Contact Form Submission');
-    mailgunData.append('text', `From: ${userEmail}\n\nMessage:\n${userMessage}`);
+    mailgunData.append('text', `From: ${userName} <${userEmail}>\n\nMessage:\n${userMessage}`);
     // You can also use 'html' instead of 'text' if you want rich formatting
 
     // 3. Create the Basic Authentication token

@@ -20,13 +20,35 @@ $(document).ready(function() {
         }, 500, 'linear');
     });
 
-    // Form Submission Handling (Demo)
+    // Form Submission Handling
     $('#contactForm').submit(function(e) {
         e.preventDefault();
-        // In a real application, you would send the data to a server here.
-        // For this demo, we'll just show an alert.
-        const name = $('#name').val();
-        alert(`Thank you, ${name}! Your message has been sent. We will get back to you shortly.`);
-        $(this)[0].reset();
+        
+        const form = this;
+        const formData = new FormData(form);
+        const submitBtn = $(this).find('button[type="submit"]');
+        const originalBtnText = submitBtn.text();
+        
+        submitBtn.prop('disabled', true).text('Sending...');
+
+        fetch('https://kg-transport.pages.dev/send-email', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Thank you! Your message has been sent. We will get back to you shortly.');
+                form.reset();
+            } else {
+                alert('There was a problem sending your message. Please try again later.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('There was a problem sending your message. Please try again later.');
+        })
+        .finally(() => {
+            submitBtn.prop('disabled', false).text(originalBtnText);
+        });
     });
 });
